@@ -70,7 +70,7 @@ namespace Server
                 socket.Send(new byte[] { 1 });
 
                 users.Add(socket, name);
-                while (true)
+                while (true) 
                 {
                     count = socket.Receive(buffer);
                     if (buffer[0] != 0)

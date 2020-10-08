@@ -16,7 +16,7 @@ namespace Client
 
             Console.WriteLine("Введите имя пользователя");
             while (true)
-            {
+            { 
                 try
                 {
                     string name = Console.ReadLine();
