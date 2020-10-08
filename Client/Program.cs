@@ -7,6 +7,7 @@ namespace Client
 {
     class Program
     {
+        static bool working = false;
         static void Main(string[] args)
         {
             byte[] buffer = new byte[1024];
@@ -34,21 +35,16 @@ namespace Client
                     Console.WriteLine("Ошибка ввода. Введите еще раз");
                 }
             }
+            Console.Clear();
+            working = true;
 
             Task.Run(() => MassegeHandler(socket));
 
-            Console.WriteLine("Для выхода из чата нажмите Ctrl+C");
-            Console.CancelKeyPress += (s, e) => 
-            {
-                socket.Disconnect(false);
-                Environment.Exit(0);
-            };
-
             string message;
-            while(true)
+            while(working)
             {
                 message = Console.ReadLine();
-                if(message != null)
+                if(working)
                     socket.Send(Encoding.UTF8.GetBytes('\0' + message));
             }
         }
@@ -74,8 +70,7 @@ namespace Client
             catch (SocketException)
             {
                 Console.WriteLine("Соединение с сервером потеряно");
-                Console.ReadLine();
-                Environment.Exit(0);
+                working = false;
             }
         }
     }

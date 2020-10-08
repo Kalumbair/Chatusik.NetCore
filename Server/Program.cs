@@ -65,15 +65,14 @@ namespace Server
                 }
 
                 Console.WriteLine($"Подключился пользователь {name}");
+                foreach (Socket s in users.Keys)
+                    s.Send(Encoding.UTF8.GetBytes('$' + $"Подключился пользователь {name}"));
                 socket.Send(new byte[] { 1 });
 
                 users.Add(socket, name);
                 while (true)
                 {
                     count = socket.Receive(buffer);
-                    if (count == 0)
-                        continue;
-
                     if (buffer[0] != 0)
                     {
                         socket.Send(buffer, count, SocketFlags.None);
